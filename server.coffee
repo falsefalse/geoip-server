@@ -19,8 +19,8 @@ lookup = (ip, response) ->
 not_found = (response, error) ->
     response.writeHead 500,
         'Content-Type': 'text/plain'
-        'Content-Length': error.toString().length
-    response.end error.toString()
+        'Content-Length': error.message.length
+    response.end error.message
 
 found = (response, data) ->
     json = JSON.stringify data
