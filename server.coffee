@@ -1,6 +1,6 @@
 #!/usr/bin/env coffee
 
-DATABASE_PATH = "./database"
+DATABASE_PATH = "#{__dirname}/database"
 
 http = require "http"
 city = new (require "geoip").City "#{DATABASE_PATH}/GeoLiteCity.dat"
@@ -30,3 +30,4 @@ server = http.createServer (request, response) ->
         response.end json
 
 server.listen 8001
+console.log "geoip-server running on port 8001"
