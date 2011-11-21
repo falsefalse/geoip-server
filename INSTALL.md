@@ -1,8 +1,6 @@
-# How to install geoip server
-
 ## Prerequisites
 
-### Node
+### nodejs
     # provides add-apt-repository
     sudo apt-get install python-software-properties
     # https://launchpad.net/~chris-lea/+archive/node.js/
@@ -12,14 +10,19 @@
     sudo apt-get install nodejs nodejs-dev
 
 ### npm
-After `npm` is installed
+Install `npm`
+
+    curl http://npmjs.org/install.sh | sudo sh
+
+Fix `$NODE_PATH`
 
     sudo vim /etc/profile.d/nodejs.sh
     # comment out existing line and add instead
     NODE_PATH=`npm -g root`
 
-### Maxmind GeoIP C lib
-Manually building latest, package repositories provide unsupported (1.4.6) versions
+### libgeoip
+Manually build 1.4.8.
+Versions older then 1.4.7 are unsupported by node bindings.
 
     wget http://geolite.maxmind.com/download/geoip/api/c/GeoIP-1.4.8.tar.gz
     tar -xzvf GeoIP-1.4.8.tar.gz
@@ -28,12 +31,7 @@ Manually building latest, package repositories provide unsupported (1.4.6) versi
     make
     sudo make install
 
-### Install geoip node package
+### packages
+See [geoip install section](https://github.com/falsefalse/geoip-server/blob/master/INSTALL.md) to pick up your `geoip` version
 
-#### node 0.4.9, cygwin
-Install to global to not collide with VM
-    
-    npm -g install geoip@0.4.4
-
-#### Ubuntu
-    [sudo] npm [-g] install geoip
+    npm install geoip[@0.4.4] bogart
