@@ -17,7 +17,7 @@ lookup = (ip, response) ->
             found response, data
 
 not_found = (response, error) ->
-    response.writeHead 500,
+    response.writeHead 404,
         'Content-Type': 'text/plain'
         'Content-Length': error.message.length
     response.end error.message
