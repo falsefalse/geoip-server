@@ -31,6 +31,7 @@ bogart.start app, { port: 8001 }
 lookup = (ip, res) ->
     # console.log "geo lookup:", ip
     city.lookup ip, (err, data) ->
+        data.ip = ip
         unless err then found data, res else not_found err, res
     res
 
