@@ -14,35 +14,36 @@ app.get "/favicon.ico", (req) ->
     bogart.html "Nope", { status: 404 }
 
 app.get /((\d{1,3}\.?){4})/, (req, ip) ->
-    lookup ip, bogart.response()
+    res = bogart.response()
+    lookup res, ip
+    res
 
 app.get "/:domain", (req, domain) ->
     # console.log "dns lookup:", domain
     res = bogart.response()
     dns.resolve4 domain, (err, address) ->
         unless err
-            lookup address[0], res
+            lookup res, address[0]
         else
-            not_found err, res
+            not_found.call res, err
     res
 
 bogart.start app, { port: 8001 }
 
-lookup = (ip, res) ->
+lookup = (res, ip) ->
     # console.log "geo lookup:", ip
     city.lookup ip, (err, data) ->
         unless err
             data.ip = ip
-            found data, res
-        else not_found err, res
-    res
+            got_data.call res, data
+        else not_found.call res, err
 
-not_found = (err, res) ->
-    res.status 404
-    res.send err.message
-    res.end()
+not_found = (err) ->
+    @status 404
+    @send err.message
+    @end()
 
-found = (data, res) ->
-    res.status 200
-    res.send JSON.stringify data
-    res.end()
+got_data = (geodata) ->
+    @status 200
+    @send JSON.stringify geodata
+    @end()
