@@ -28,7 +28,7 @@ app.get "/:domain", (req, domain) ->
             not_found.call res, err
     res
 
-bogart.start app, { port: 8001 }
+bogart.start app, { port: 8080 }
 
 lookup = (res, ip) ->
     # console.log "geo lookup:", ip
