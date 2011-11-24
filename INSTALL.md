@@ -52,7 +52,7 @@ Ctrl+C to stop server.
 
 ### Running constantly
 
-I use upstart job (Ubuntu) and `monit` that.
+I use upstart job (Ubuntu) and `monit` for that.
 
 #### /etc/init/node-geoip.conf
     description "geoip node.js server"
