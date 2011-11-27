@@ -13,7 +13,8 @@ app.get "/", (req) ->
 app.get "/favicon.ico", (req) ->
     bogart.html "Nope", { status: 404 }
 
-app.get /((\d{1,3}\.?){4})/, (req, ip) ->
+# match 4 groups of 3 digits separated by 3 commas
+app.get /((\d{1,3}(\.|$)){4})/, (req, ip) ->
     res = bogart.response()
     lookup res, ip
     res
