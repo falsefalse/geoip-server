@@ -52,7 +52,7 @@ Ctrl+C to stop server.
 
 ### Running constantly
 
-I use upstart job (Ubuntu) and `monit` for that.
+I use upstart job (Ubuntu) and `monit` for that. Make sure you have `dbus` package installed, this job somehow needs it.
 
 #### /etc/init/node-geoip.conf
     description "geoip node.js server"
@@ -72,6 +72,11 @@ I use upstart job (Ubuntu) and `monit` for that.
     $ ps ax | grep node
     $ start node-geoip
     $ ps ax | grep node
+
+To check if it works
+    initctl list | grep node-geoip
+    sudo start node-geoip
+    initctl status node-geoip
 
 
 #### /etc/monit/monitrc
