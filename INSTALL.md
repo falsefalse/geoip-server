@@ -3,9 +3,11 @@
 ### nodejs
     # provides add-apt-repository
     sudo apt-get install python-software-properties
+
     # https://launchpad.net/~chris-lea/+archive/node.js/
     sudo add-apt-repository ppa:chris-lea/node.js
     sudo apt-get update
+
     # we need to build geoip package
     sudo apt-get install nodejs nodejs-dev
 
@@ -31,9 +33,10 @@ Versions older then 1.4.7 are unsupported by node bindings.
     cd GeoIP-1.4.8.tar
     ./configure --prefix=/usr # important!
     make
+    make check
     sudo make install
 
-### packages
+### node packages
 See [geoip install section](https://github.com/kuno/GeoIP) to pick up your `geoip` version.
 Both `geoip` and `bogart` build bindings and extensions, make sure you have `node-dev` package.
 
@@ -68,12 +71,8 @@ I use upstart job (Ubuntu) and `monit` for that. Make sure you have `dbus` packa
       exec sudo -u false /usr/bin/coffee /home/false/workspace/geoip-server/server.coffee >> /var/log/node/geoip.log 2>&1
     end script
 
-    $ start node-geoip
-    $ ps ax | grep node
-    $ start node-geoip
-    $ ps ax | grep node
-
 To check if it works
+
     initctl list | grep node-geoip
     sudo start node-geoip
     initctl status node-geoip
