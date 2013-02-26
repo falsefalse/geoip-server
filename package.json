@@ -1,0 +1,8 @@
+{
+    "name": "yaf-server",
+    "version": "0.0.2",
+    "dependencies": {
+        "bogart": ">=0.4.0-rc",
+        "geoip": ">0.4.8"
+    }
+}
