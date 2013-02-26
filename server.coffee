@@ -14,14 +14,15 @@ app.get "/favicon.ico", (req) ->
     bogart.html "Nope", { status: 404 }
 
 # match 4 groups of 3 digits separated by 3 dots
-app.get /((\d{1,3}(\.|$)){4})/, (req, ip) ->
-    res = bogart.response()
-    lookup res, ip
+app.get /((\d{1,3}(\.|$)){4})/, (req) ->
+    res = bogart.res()
+    lookup res, req.params.splat[0]
     res
 
-app.get "/:domain", (req, domain) ->
+app.get "/:domain", (req) ->
     # console.log "dns lookup:", domain
-    res = bogart.response()
+    res = bogart.res()
+    domain = req.params.domain
     dns.resolve4 domain, (err, address) ->
         unless err
             lookup res, address[0]
