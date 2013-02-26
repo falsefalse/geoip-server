@@ -8,7 +8,7 @@ city = new (require "geoip").City "#{DATABASE_PATH}/GeoLiteCity.dat"
 
 app = bogart.router()
 app.get "/", (req) ->
-    bogart.html "Hello, world!"
+    bogart.html "Hello, world!\n"
 
 app.get "/favicon.ico", (req) ->
     bogart.html "Nope", { status: 404 }
