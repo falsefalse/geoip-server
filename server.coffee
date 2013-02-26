@@ -26,7 +26,7 @@ app.get "/:domain", (req, domain) ->
         unless err
             lookup res, address[0]
         else
-            not_found.call res, err
+            not_found.call res, "Domain #{domain} wasn't resolved", err
     res
 
 bogart.start app, { port: 8080 }
@@ -37,11 +37,11 @@ lookup = (res, ip) ->
         unless err
             data.ip = ip
             got_data.call res, data
-        else not_found.call res, err
+        else not_found.call res, "IP #{ip} wasn't found in database", err
 
-not_found = (err) ->
+not_found = (message, err) ->
     @status 404
-    @send err.message
+    @send "#{message}\n"
     @end()
 
 got_data = (geodata) ->
