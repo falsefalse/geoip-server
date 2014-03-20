@@ -33,10 +33,33 @@ Both `geoip` and `bogart` build bindings and extensions, make sure you have `nod
     sudo npm -g install coffee
     npm install .
 
-### Updating geo ip bases
-Needs to have  [geoipupdate](https://github.com/maxmind/geoipupdate) installed.
+### Build `libgeoip`
+
+    git clone git@github.com:maxmind/geoip-api-c.git
+    cd geoip-api-c
+    ./bootstrap
+    ./configure
+    make
+    # will fail if no GeoIP.dat is supplied, symlink to existing one
+    make check
+    sudo make install
+    sudo ldconfig
+
+
+### Updating databases
+Install  [geoipupdate](https://github.com/maxmind/geoipupdate)
+
+    git clone git@github.com:maxmind/geoipupdate.git
+    cd geoipupdate
+    ./bootstrap
+    ./configure
+    make
+    sudo make install
+
+Download latest databases to custom directory
 
     geoipupdate -f geoipupdate.conf -d ./database/
+
 
 ### Running
 
