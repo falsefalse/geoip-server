@@ -43,6 +43,10 @@ Both `geoip` and `bogart` build bindings and extensions, make sure you have `nod
     sudo npm -g install coffee
     npm install geoip[@0.4.4]
     npm install bogart
+### Updating geo ip bases
+Needs to have  [geoipupdate](https://github.com/maxmind/geoipupdate) installed.
+
+    geoipupdate -f geoipupdate.conf -d ./database/
 
 ### Running
 
