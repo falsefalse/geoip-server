@@ -1,5 +1,7 @@
 ## geoip-server
 
-This is web frontend for [geoip](https://github.com/kuno/GeoIP).
+Server part of [Yet Another Flags](https://chrome.google.com/webstore/detail/dmchcmgddbhmbkakammmklpoonoiiomk) extension for Google Chrome.
 
-It is (will be actually) used by my [Yet Another Flags](https://chrome.google.com/webstore/detail/dmchcmgddbhmbkakammmklpoonoiiomk) extension for Google Chrome.
+Uses excellent [geoip](https://github.com/kuno/GeoIP) and simple webapp done in [bogart](https://github.com/nrstott/bogart) to resolve domains or IPs into geodata, which is returned in JSON.
+
+Way too simple, but it's enough for the job.
