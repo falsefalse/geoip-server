@@ -1,8 +1,9 @@
 {
     "name": "yaf-server",
-    "version": "0.0.2",
+    "version": "0.0.3",
+    "repository": "git@github.com:falsefalse/geoip-server.git",
     "dependencies": {
-        "bogart": ">=0.4.0-rc",
-        "geoip": ">=0.4.8"
+        "bogart": "=0.4.4",
+        "geoip": ">=0.5.2"
     }
 }
