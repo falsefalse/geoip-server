@@ -1,0 +1,23 @@
+{
+  "folders":
+ [
+ {
+   "name": "yaf-server",
+   "path": ".",
+   "folder_exclude_patterns": [
+     "node_modules"
+   ],
+   "file_exclude_patterns": [
+     "database*/*",
+     "geoip-api-c/*",
+     "geoipupdate/*",
+
+     "*.sublime-workspace"
+   ]
+ }
+ ],
+ "settings": {
+   "trim_trailing_white_space_on_save": true,
+   "translate_tabs_to_spaces": true
+   }
+ }
