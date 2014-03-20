@@ -24,25 +24,15 @@ Fix `$NODE_PATH`
 
 *TODO:* Figure out how to make it available for `root` as well
 
-### libgeoip
-Manually build 1.4.8.
-Versions older then 1.4.7 are unsupported by node bindings.
-
-    wget http://geolite.maxmind.com/download/geoip/api/c/GeoIP-1.4.8.tar.gz
-    tar -xzvf GeoIP-1.4.8.tar.gz
-    cd GeoIP-1.4.8.tar
-    ./configure --prefix=/usr # important!
-    make
-    make check
-    sudo make install
+nodejs have this fixed as of 0.10 or something
 
 ### node packages
 See [geoip install section](https://github.com/kuno/GeoIP) to pick up your `geoip` version.
 Both `geoip` and `bogart` build bindings and extensions, make sure you have `node-dev` package.
 
     sudo npm -g install coffee
-    npm install geoip[@0.4.4]
-    npm install bogart
+    npm install .
+
 ### Updating geo ip bases
 Needs to have  [geoipupdate](https://github.com/maxmind/geoipupdate) installed.
 
@@ -52,7 +42,7 @@ Needs to have  [geoipupdate](https://github.com/maxmind/geoipupdate) installed.
 
     git clone git://github.com/falsefalse/geoip-server.git
     cd geoip-server
-    ./server-coffee
+    coffee server.coffee
 
 It uses 8080 port currently. It probably should be taken to parameter.
 Ctrl+C to stop server.
