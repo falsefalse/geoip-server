@@ -1,0 +1,12 @@
+{
+  // order matters!
+  "extends": ["eslint:recommended", "prettier"],
+  "rules": { "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }] },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "env": {
+    "es2018": true,
+    "node": true
+  }
+}

@@ -1,9 +1,22 @@
 {
-    "name": "yaf-server",
-    "version": "0.0.3",
-    "repository": "git@github.com:falsefalse/geoip-server.git",
-    "dependencies": {
-        "bogart": "=0.4.4",
-        "geoip": ">=0.5.2"
-    }
+  "name": "yaf-server",
+  "version": "0.0.3",
+  "repository": "git@github.com:falsefalse/geoip-server.git",
+  "private": true,
+  "scripts": {
+    "start": "node ./src/server.js 80",
+    "start:dev": "node --inspect ./src/server.js 8080",
+    "lint": "eslint src/*.js",
+    "db:load": "mkdir -p ./db && geoipupdate -f db_update.conf -d ./db -v && ls -lah db/GeoLite2-City.mmdb",
+    "db:clean": "rm -fr ./db"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "maxmind": "^4.3.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "prettier": "^2.8.3"
+  }
 }
