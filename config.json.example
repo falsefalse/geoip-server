@@ -1,0 +1,6 @@
+{
+  "db": {
+    "path": "./db/GeoLiteCity.dat"
+  },
+  "port": 8080
+}

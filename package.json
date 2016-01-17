@@ -1,9 +1,13 @@
 {
-    "name": "yaf-server",
-    "version": "0.0.3",
-    "repository": "git@github.com:falsefalse/geoip-server.git",
-    "dependencies": {
-        "bogart": "=0.4.4",
-        "geoip": ">=0.5.2"
-    }
+  "name": "yaf-server",
+  "version": "0.0.3",
+  "repository": "git@github.com:falsefalse/geoip-server.git",
+  "private": true,
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "geoip": "^0.6.1"
+  }
 }
