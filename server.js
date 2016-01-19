@@ -22,7 +22,7 @@ app
     dns.resolve4(req.params.domain, function(err, ips) {
       if (err)
         return res.status(404)
-          .send('"%s" was not resolved'.replace('%s', req.params.domain))
+          .send({error: '"%s" was not resolved'.replace('%s', req.params.domain)})
 
       res.locals.ips = ips
       next()
@@ -35,7 +35,10 @@ app
     geoCity.lookup(ip, function(err, geoData) {
       if (err || !geoData)
         return res.status(404)
-          .send(err || 'IP %s was not found in database'.replace('%s', ip))
+          .send({
+            ip: ip,
+            error: err || 'IP %s was not found in database'.replace('%s', ip)
+          })
 
       geoData.ip = ip
       res.status(200).send(geoData)
