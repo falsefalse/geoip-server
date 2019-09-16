@@ -4,10 +4,10 @@
   "repository": "git@github.com:falsefalse/geoip-server.git",
   "private": true,
   "scripts": {
-    "start": "node ./server.js"
+    "start": "node --inspect ./server.js"
   },
   "dependencies": {
-    "express": "^4.13.3",
-    "geoip": "^0.6.1"
+    "express": "^4.17.1",
+    "maxmind": "^3.1.2"
   }
 }
