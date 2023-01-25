@@ -82,5 +82,5 @@ app
     return res.status(200).send(prepareResponse(byCity[0], ips))
   })
 
-let [_node, _script, ...[port]] = process.argv
+let [_node, _script, ...[port = 8080]] = process.argv
 app.listen(port, console.log.bind(console, 'Listening on port ' + port))
