@@ -14,11 +14,12 @@
   "build_systems": [
     {
       "name": "lint",
-      "shell_cmd": "npm run lint --color",
+      "shell_cmd": "yarn lint",
       "working_dir": "$project_path",
-      "file_regex": "^((/[^/\\s]*)+)$",
+      "file_regex": "^(\\S+)()()$",
       "line_regex": "^\\s*(\\d+):(\\d)\\s+(.*)$",
-      "target": "terminus_exec"
-    },
+      "target": "terminus_exec",
+      "auto_close": true
+    }
   ]
 }

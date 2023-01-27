@@ -1,102 +1,67 @@
-## geoip-server
+# geoip-server
 
 Express.js app that resolves domains and IP address to geo data.
-It uses [geoip](https://github.com/kuno/GeoIP) and free GeoLite database.
+It uses [maxmind] and free GeoLite database.
+
+Used as a backend for [Yet Another Flags], checkout the [extension code] as well!
 
 ## Install
 
-### node, npm
+### node, yarn, geoipupdate, forever
 
-    # provides add-apt-repository
-    $ sudo apt-get install python-software-properties
+```bash
+# add node sources
+curl -sL https://deb.nodesource.com/setup_18.x | bash -
+# add yarn sources
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-    # https://launchpad.net/~chris-lea/+archive/node.js/
-    $ sudo add-apt-repository ppa:chris-lea/node.js
-    $ sudo apt-get update
+apt update
+apt install nodejs yarn geoipupdate
 
-    # we need to build geoip package
-    $ sudo apt-get install nodejs nodejs-dev
+yarn global add forever
+```
 
-### Database
+### GeoLite license and DB
 
-Install `geoipupdate`.
+Needs `AccountID` and `LicenseKey` from MaxMind, free license works.
 
-    $ sudo add-apt-repository ppa:maxmind/ppa
-    $ sudo apt-get update
-    $ sudo apt-get install geoipupdate
+```bash
+# update the file with your AccountID and LicenseKey values
+cp db_update.example.conf db_update.conf
 
-or compile from [source](https://github.com/maxmind/geoipupdate)
-
-    $ git clone https://github.com/maxmind/geoipupdate
-    $ cd geoipupdate
-    $ ./bootstrap
-    $ make
-    $ [sudo] make install
-
-### Update GeoLite database
-
-    $ mkdir ./db
-    $ geoipupdate -f geoipupdate.conf -d ./db/
-
+yarn db:load
+yarn
+```
 
 ## Run
-    $ npm install .
-    $ cp config.json.example config.json
-    $ npm start
 
+In development mode, with filewatcher and exposed debugger.
 
-## Running constantly
+```bash
+yarn start
+```
 
-I use upstart job (Ubuntu) and `monit` for that. Make sure you have `dbus` package installed, this job somehow needs it.
+It uses [forever] to run as a daemon.
 
-### Allow `node` to bind to port 80
+```bash
+yarn forever
 
-    $ sudo apt-get install libcap2-bin
-    $ sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
+# to stop the daemon
+yarn stop
+# forever list, forever restartall, etc
+```
 
+### Running constantly
 
-### /etc/init/node-geoip.conf
-    description "geoip node.js server"
-    author      "false"
+```bash
+crontab -e
+# paste this
+@reboot cd /root/geoip-server && yarn forever
+@daily cd /root/geoip-server && yarn db:load && forever restartall
+```
 
-    start on started mountall
-    stop on shutdown
-
-    script
-      # doesn't work without it
-      export HOME="root"
-
-      cd /home/false/workspace/geoip-server
-      exec sudo -u www-data /usr/bin/npm start >> /var/log/node/geoip.log 2>&1
-    end script
-
-To check if it works
-
-    initctl list | grep node-geoip
-    sudo start node-geoip
-    initctl status node-geoip
-
-
-### /etc/monit/monitrc
-Just enable one of predefined configurations.
-
-    set daemon  60
-    set httpd port 2812 and
-        use address localhost  # only accept connection from localhost
-        allow localhost        # allow localhost to connect to the server and
-        allow admin:monit      # require user 'admin' with password 'monit'
-        allow @monit           # allow users of group 'monit' to connect (rw)
-        allow @users readonly  # allow users of group 'users' to connect readonly
-    include /etc/monit/conf.d/*
-
-### /etc/monit/conf.d/node-geoip
-    set logfile /var/log/monit/monit.log
-
-    check host nodejs with address 127.0.0.1
-      start program = "/sbin/start node-geoip"
-      stop program = "/sbin/stop node-geoip"
-
-      if failed port 8080 protocol http
-        request /
-        with timeout 10 seconds
-        then restart
+[Yet Another Flags]: https://chrome.google.com/webstore/detail/yet-another-flags/dmchcmgddbhmbkakammmklpoonoiiomk
+[extension code]: https://github.com/falsefalse/yaf-extension
+[maxmind]: https://github.com/runk/node-maxmind
+[forever]: https://github.com/foreversd/forever
