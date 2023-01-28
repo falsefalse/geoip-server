@@ -1,11 +1,16 @@
 const express = require('express')
+const cors = require('cors')
 const dns = require('dns')
 const fs = require('fs')
 const maxmind = require('maxmind')
 
 const mmCity = new maxmind.Reader(fs.readFileSync('./db/GeoLite2-City.mmdb'))
 
-function prepareResponse(geoData, ips) {
+const CORS = {
+  origin: '*'
+}
+
+function prepareGeo(geoData, ips) {
   const response = []
 
   let { city, subdivisions, postal, country, registered_country } = geoData
@@ -42,13 +47,13 @@ app.get('/', (req, res) => {
 
 app
   // IPs, match 4 groups of 3 integers exactly
-  .get(/\/((\d{1,3}\.){3}\d+)$/, (req, res, next) => {
+  .get(/\/((\d{1,3}\.){3}\d+)$/, cors(CORS), (req, res, next) => {
     res.locals.ips = [req.params[0]]
     next()
   })
 
   // Domains
-  .get('/:domain', (req, res, next) => {
+  .get('/:domain', cors(CORS), (req, res, next) => {
     if (res.locals.ips) return next()
 
     dns.resolve4(req.params.domain, (err, ips) => {
@@ -79,7 +84,7 @@ app
       })
     }
 
-    return res.status(200).send(prepareResponse(byCity[0], ips))
+    return res.status(200).send(prepareGeo(byCity[0], ips))
   })
 
 let [_node, _script, ...[port = 8080]] = process.argv
