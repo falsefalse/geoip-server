@@ -19,10 +19,9 @@ function prepareGeo(geoData, ips) {
 
   response.push(['ip', ips[0]])
 
-  return response.reduce((acc, pair) => {
-    if (pair[1]) acc[pair[0]] = pair[1]
-    return acc
-  }, {})
+  return response
+    .filter(([, value]) => Boolean(value))
+    .reduce((_, [key, value]) => ({ ..._, [key]: value }), {})
 }
 
 module.exports = { prepareGeo, error }
