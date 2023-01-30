@@ -6,17 +6,34 @@ const fs = require('fs')
 
 const { prepareGeo, error } = require('./util.js')
 
-const mmCity = new maxmind.Reader(fs.readFileSync('./db/GeoLite2-City.mmdb'))
+const db = './db/GeoLite2-City.mmdb'
+const lockfile = 'db/.geoipupdate.lock'
+const mmCity = new maxmind.Reader(fs.readFileSync(db))
 
-const CORS = {
-  origin: '*'
-}
+const { buildEpoch } = mmCity.metadata
+const { ctime: ctimeDb } = fs.statSync(db)
+const { ctime: ctimeLock } = fs.statSync(lockfile)
+
+let meta = Object.entries({
+  created: buildEpoch,
+  updated: ctimeDb,
+  last_check: ctimeLock
+})
+  .map(([key, value]) => `${key}: ${new Date(value).toUTCString()}`)
+  .join('\n')
+meta = `<details><summary>db info</summary><pre>${meta}</pre></details>`
 
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send('<code>EHLO</code>')
+  res.send(
+    `<title>EHLO</title><code><h3>YES</h3> <small>${meta}</small></code>`
+  )
 })
+
+const CORS = {
+  origin: '*'
+}
 
 app.use(cors(CORS))
 

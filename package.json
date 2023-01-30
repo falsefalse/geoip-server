@@ -7,12 +7,12 @@
   },
   "private": true,
   "scripts": {
-    "start": "forever -w -c 'node --inspect' ./src/server.js",
-    "forever": "forever start ./src/server.js 80",
-    "stop": "forever stop ./src/server.js",
+    "start": "forever -w -c 'node --inspect' src/server.js",
+    "forever": "forever start src/server.js 80",
+    "stop": "forever stop src/server.js",
     "lint": "eslint src/*.js",
-    "db:load": "mkdir -p ./db && geoipupdate -f db_update.conf -d ./db -v && ls -lah db/GeoLite2-City.mmdb",
-    "db:clean": "rm -fr ./db"
+    "db:load": "mkdir -p db && rm -f db/.geoipupdate.lock && geoipupdate -f db_update.conf -d db -v && ls -lah db/",
+    "db:clean": "rm -fr db"
   },
   "dependencies": {
     "cors": "^2.8.5",
