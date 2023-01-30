@@ -18,15 +18,17 @@ app.get('/', (req, res) => {
   res.send('<code>EHLO</code>')
 })
 
+app.use(cors(CORS))
+
 app
   // IPs, match 4 groups of 3 integers exactly
-  .get(/\/((\d{1,3}\.){3}\d+)$/, cors(CORS), (req, res, next) => {
+  .get(/\/((\d{1,3}\.){3}\d+)$/, (req, res, next) => {
     res.locals.ips = [req.params[0]]
     next()
   })
 
   // Domains
-  .get('/:domain', cors(CORS), (req, res, next) => {
+  .get('/:domain', (req, res, next) => {
     if (res.locals.ips) return next()
 
     dns.resolve4(req.params.domain, (err, ips) => {
