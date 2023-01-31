@@ -79,5 +79,6 @@ app
     return res.status(200).send(prepareGeo(byCity[0], ips))
   })
 
-let [_node, _script, ...[port = 8080]] = process.argv
+// we are behind nginx anyway
+const port = 8080
 app.listen(port, console.log.bind(console, 'Listening on port ' + port))
