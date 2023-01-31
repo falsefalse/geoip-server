@@ -34,6 +34,22 @@ yarn db:load
 yarn
 ```
 
+### nginx and certbot
+
+```bash
+apt install nginx
+snap install --classic certbot
+
+service nginx start
+
+# generate certificate
+certbot certonly
+
+# copy ngnix configuration
+# ⚠️ this overwrites your existing config, assumign fresh VM
+cp nginx.conf /etc/nginx/sites-available/default
+```
+
 ## Run
 
 In development mode, with filewatcher and exposed debugger.
@@ -42,23 +58,31 @@ In development mode, with filewatcher and exposed debugger.
 yarn start
 ```
 
-It uses [forever] to run as a daemon.
+It uses [forever] to run as a daemon on 8080.
 
 ```bash
 yarn forever
 
+# check the logs
+yarn logs
+
 # to stop the daemon
 yarn stop
-# forever list, forever restartall, etc
+# restart
+yarn restart
 ```
 
 ### Running constantly
+
+Server runs behind nginx which does TLS termination.
 
 ```bash
 crontab -e
 # paste this
 @reboot cd /root/geoip-server && yarn forever
 @daily cd /root/geoip-server && yarn db:load && forever restartall
+
+yarn forever
 ```
 
 [Yet Another Flags]: https://chrome.google.com/webstore/detail/yet-another-flags/dmchcmgddbhmbkakammmklpoonoiiomk

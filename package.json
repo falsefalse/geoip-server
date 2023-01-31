@@ -10,6 +10,7 @@
     "start": "forever -w -c 'node --inspect' src/server.js",
     "forever": "forever start src/server.js",
     "stop": "forever stop src/server.js",
+    "logs": "forever logs 0",
     "restart": "forever restartall",
     "lint": "eslint src/*.js",
     "db:load": "mkdir -p db && rm -f db/.geoipupdate.lock && geoipupdate -f db_update.conf -d db -v && ls -lah db/",
