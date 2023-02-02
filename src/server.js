@@ -67,18 +67,22 @@ app
       return res.status(404).send(error('Could not parse domain or IP address'))
     }
 
-    const byCity = ips.map(ip => mmCity.get(ip)).filter(Boolean)
+    const [cityData, ..._] = ips.map(ip => mmCity.get(ip)).filter(Boolean)
 
-    if (!byCity.length) {
+    if (!cityData) {
       return res.status(404).send({
         ip: ips[0],
         ...error('IP address was not found in database')
       })
     }
 
-    return res.status(200).send(prepareGeo(byCity[0], ips))
+    return res.status(200).send(prepareGeo(cityData, ips))
   })
 
 // we are behind nginx anyway
 const port = 8080
-app.listen(port, console.log.bind(console, 'Listening on port ' + port))
+app.listen(port, () => {
+  console.log()
+  console.log('Started at', new Date().toUTCString())
+  console.log('Listening on port ', port)
+})

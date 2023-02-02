@@ -1,0 +1,9 @@
+{
+  "uid": "geoip-server",
+  "append": true,
+  "script": "src/server.js",
+  "sourceDir": "./",
+  "logFile": "./log/forever.log",
+  "outFile": "./log/out.log",
+  "errFile": "./log/error.log"
+}

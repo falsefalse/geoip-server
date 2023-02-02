@@ -28,7 +28,7 @@ Needs `AccountID` and `LicenseKey` from MaxMind, free license works.
 
 ```bash
 # update the file with your AccountID and LicenseKey values
-cp db_update.example.conf db_update.conf
+cp maxmind.example.conf maxmind.conf
 
 yarn db:load
 yarn

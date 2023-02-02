@@ -7,13 +7,13 @@
   },
   "private": true,
   "scripts": {
-    "start": "forever -w -c 'node --inspect' src/server.js",
-    "forever": "forever start src/server.js",
-    "stop": "forever stop src/server.js",
+    "start": "forever -a -w -c 'node --inspect' src/server.js",
+    "forever": "forever -p . start forever.json",
+    "stop": "forever -p . stop geoip-server",
     "logs": "forever logs 0",
     "restart": "forever restartall",
     "lint": "eslint src/*.js",
-    "db:load": "mkdir -p db && rm -f db/.geoipupdate.lock && geoipupdate -f db_update.conf -d db -v && ls -lah db/",
+    "db:load": "rm -f db/.geoipupdate.lock && geoipupdate -f maxmind.conf -d db -v && ls -lah db/",
     "db:clean": "rm -fr db"
   },
   "dependencies": {
