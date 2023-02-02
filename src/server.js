@@ -80,8 +80,8 @@ app
   })
 
 // we are behind nginx anyway
-const port = 8080
-app.listen(port, () => {
+const [host, port] = ['localhost', 8080]
+app.listen(port, host, () => {
   console.log()
   console.log('Started at', new Date().toUTCString())
   console.log('Listening on port ', port)
