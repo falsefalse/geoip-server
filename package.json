@@ -14,7 +14,7 @@
     "restart": "forever restartall",
     "lint": "eslint src/*.js",
     "db:load": "rm -f db/.geoipupdate.lock && geoipupdate -f maxmind.conf -d db -v && ls -lah db/",
-    "db:clean": "rm -fr db"
+    "db:clean": "rm -f db/*"
   },
   "dependencies": {
     "cors": "^2.8.5",
