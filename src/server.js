@@ -14,21 +14,44 @@ const { buildEpoch } = mmCity.metadata
 const { ctime: ctimeDb } = fs.statSync(db)
 const { ctime: ctimeLock } = fs.statSync(lockfile)
 
-let meta = Object.entries({
-  created: buildEpoch,
-  updated: ctimeDb,
-  last_check: ctimeLock
-})
-  .map(([key, value]) => `${key}: ${new Date(value).toUTCString()}`)
-  .join('\n')
-meta = `<details><summary>db info</summary><pre>${meta}</pre></details>`
+const dbInfoTemplate = meta => `
+  <details open>
+    <summary>maxmind database</summary>
+
+    <pre>${meta}</pre>
+  </details>
+`
+
+const dbInfoHtml = dbInfoTemplate(
+  Object.entries({
+    created: buildEpoch,
+    updated: ctimeDb,
+    last_check: ctimeLock
+  })
+    .map(([key, value]) => `${key}: ${new Date(value).toUTCString()}`)
+    .join('\n')
+)
+
+const storeLink =
+  'https://chrome.google.com/webstore/detail/dmchcmgddbhmbkakammmklpoonoiiomk'
+const indexTemplate = dbInfoHtml => `
+  <title>EHLO</title>
+
+  <code>
+    <h3>YES</h3>
+
+    <small>
+      <p>This is <a href="${storeLink}" target="_blank">Yet Another Flags</a> back end service.</p>
+
+      ${dbInfoHtml}
+    </small>
+  </code>
+`
 
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send(
-    `<title>EHLO</title><code><h3>YES</h3> <small>${meta}</small></code>`
-  )
+  res.send(indexTemplate(dbInfoHtml))
 })
 
 const CORS = {
@@ -84,5 +107,5 @@ const [host, port] = ['localhost', 8080]
 app.listen(port, host, () => {
   console.log()
   console.log('Started at', new Date().toUTCString())
-  console.log('Listening on port ', port)
+  console.log('Listening on port', port)
 })
