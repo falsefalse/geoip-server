@@ -5,7 +5,10 @@ function prepareGeo(geoData, ips) {
 
   let { city, subdivisions, postal, country, registered_country } = geoData
 
-  city && response.push(['city', city.names.en])
+  if (city) {
+    city = city.names.en
+    response.push(['city', city])
+  }
 
   country = country || registered_country
   if (country) {
@@ -13,7 +16,13 @@ function prepareGeo(geoData, ips) {
     response.push(['country_name', country.names.en])
   }
 
-  subdivisions && response.push(['region', subdivisions[0].names.en])
+  if (subdivisions) {
+    const region = subdivisions[0].names.en
+    // don't need regions same as city and number-only ones
+    if (city != region && !/^\d+$/.test(region)) {
+      response.push(['region', region])
+    }
+  }
 
   postal && response.push(['postal_code', postal.code])
 
