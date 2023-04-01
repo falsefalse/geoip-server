@@ -75,7 +75,11 @@ app
       if (err)
         return res
           .status(404)
-          .send(error('"%s" was not resolved'.replace('%s', req.params.domain)))
+          .send(
+            error(
+              'Domain "%s" was not resolved'.replace('%s', req.params.domain)
+            )
+          )
 
       res.locals.ips = ips
       next()
