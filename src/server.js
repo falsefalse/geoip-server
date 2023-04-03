@@ -62,7 +62,7 @@ app.use(cors(CORS))
 
 app
   // IPs, match 4 groups of 3 integers exactly
-  .get(/\/((\d{1,3}\.){3}\d+)$/, (req, res, next) => {
+  .get(/\/((\d{1,3}\.){3}\d{1,3})$/, (req, res, next) => {
     res.locals.ips = [req.params[0]]
     next()
   })
